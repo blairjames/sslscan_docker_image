@@ -1,2 +1,2 @@
 # sslscan_docker_image
-Lean, Compiled, Single Concern, Docker Image to run sslscan.
+Lean, source compiled, single concern Docker image to run sslscan.
