@@ -7,6 +7,8 @@ timestamp() {
 ts=$(timestamp)
 echo "$ts"
 
+. /root/.ssh/agent/root 
+
 docker build . -t blairy/sslscan:$ts
 git pull && \
 git add --all && \ 
