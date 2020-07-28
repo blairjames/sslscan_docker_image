@@ -24,7 +24,7 @@ except () {
 
 # Run the build and push to Git and Docker.
 run () {
-    docker build /home/docker/sslscan/sslscan_docker_image/Dockerfile -t blairy/sslscan:$ts || except "Docker build failed!" 
+    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts || except "Docker build failed!" 
     git="/usr/bin/git -C /home/docker/sslscan/sslscan_docker_image/"
     $git pull && \
     $git add --all && \
