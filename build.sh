@@ -18,14 +18,10 @@ except () {
 }
 
 # Print
-printer () {
+print () {
     printf "$1\n" || except "Printf failed in the print function!"
     echo "$1" >> $log || except "Echo failed in the print function!"
 }
-if ! printer; then
-    except "Print Failed!"
-    exit 1
-fi
 
 # Static start time.
 ts=$(timestamp)
