@@ -11,6 +11,9 @@ timestamp () {
   date +"%Y%m%d_%H%M"
 }
 
+# Static start time.
+ts=$(timestamp)
+
 # Exception Catcher
 except () {
     print $1
@@ -23,18 +26,24 @@ print () {
     echo "$1" >> $log || except "Echo failed in the print function!"
 }
 
-# Static start time.
-ts=$(timestamp)
+# Test the build of SSLScan works.
+test () {
+  docker run --rm $1 https://google.com.au || return 1
+}
 
 # Run the build and push to Git and Docker.
 run () {
     docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts || except "Docker build failed!" 
-    git="/usr/bin/git -C /home/docker/sslscan/sslscan_docker_image/"
-    $git pull && \
-    $git add --all && \
-    $git commit -a -m "Automatic build $ts" && \ 
-    $git push || except "Git Failed!"
-    docker push blairy/sslscan:$ts || except "Docker push failed!"
+    if test blairy/sslscan:$ts; then   
+        git="/usr/bin/git -C /home/docker/sslscan/sslscan_docker_image/"
+        $git pull && \
+        $git add --all && \
+        $git commit -a -m "Automatic build $ts" && \ 
+        $git push || except "Git Failed!"
+        docker push blairy/sslscan:$ts || except "Docker push failed!"
+    else
+        except "SSLScan Test Failed!"
+    fi
 }
 
 # Manage execution
@@ -44,4 +53,6 @@ else
     except "Run Failed!"
     exit 1
 fi
+
+# Complete
 exit 0
