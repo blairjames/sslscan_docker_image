@@ -1,4 +1,4 @@
-# Starting with Alpine latest image. 
+# Starting with Alpine latest image 
 FROM alpine:latest
 
 # Compile
