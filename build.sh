@@ -26,25 +26,25 @@ except () {
 # logger is called by except so to avoid infinte loops do not call except from logger.
 logger () {
     echo $1 || printf "\nError! logger function failed to stdout.\n"
-    echo '$(ts) - $1' >> $log || printf "\nError! logger function failed to file.\n"
+    echo $(timestamp) - $1 >> $log || printf "\nError! logger function failed to file.\n"
 }
 
 # Test the build of SSLScan works.
 test () {
-  docker run --rm $1 https://google.com.au | tee $log || return 1
+  docker run --rm $1 https://google.com.au | tee -a $log || return 1
 }
 
 # Run the build and push to Git and Docker.
 run () {
-    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts | tee $log || except "Docker build failed!"
+    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts | tee -a $log || except "Docker build failed!"
     if test blairy/sslscan:$ts
     then   
         git="/usr/bin/git -C /home/docker/sslscan/sslscan_docker_image/"
         $git pull && \
         $git add --all && \
         $git commit -a -m "Automatic build $ts" && \ 
-        $git push | tee $log || except "Git Failed!"
-        docker push blairy/sslscan:$ts | tee $log || except "Docker push failed!"
+        $git push | tee -a $log || except "Git Failed!"
+        docker push blairy/sslscan:$ts | tee -a $log || except "Docker push failed!"
     else
         except "SSLScan Test Failed!"
     fi
