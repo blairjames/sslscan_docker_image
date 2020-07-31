@@ -26,7 +26,7 @@ except () {
 # logger is called by except so to avoid infinte loops do not call except from logger.
 logger () {
     echo $1 || printf "\nError! logger function failed to stdout.\n"
-    echo $1 >> $log || printf "\nError! logger function failed to file.\n"
+    echo "$(ts) - $1" >> $log || printf "\nError! logger function failed to file.\n"
 }
 
 # Test the build of SSLScan works.
