@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
+# Build Executer for SSLScan Docker Image CI/CD.
+# Run via cron, build, test, push, fail fast.
 
 # Env Vars for SSH
 source /root/.ssh/agent/root || . /root/.ssh/agent/root
 
 # Log file
-log="/var/log/messages"
+log="/home/docker/sslscan/sslscan_docker_image/log_build.log"
 
 # Build current timestamp
 timestamp () {
@@ -16,14 +18,14 @@ ts=$(timestamp)
 
 # Exception Catcher
 except () {
-    print $1
+    logger $1
     return 1
 }
 
-# Print
-print () {
-    printf "$1\n" || except "Printf failed in the print function!"
-    echo "$1" >> $log || except "Echo failed in the print function!"
+# log and print to stdout
+# logger is called by except so to avoid infinte loops do not call except from logger.
+logger () {
+    $1 tee $log || printf "\nError! logger function failed.\n"
 }
 
 # Test the build of SSLScan works.
@@ -48,7 +50,7 @@ run () {
 
 # Manage execution
 if run; then
-    print "Build and Push successfull!"
+    logger "Build and Push successfull!"
 else
     except "Run Failed!"
     exit 1
