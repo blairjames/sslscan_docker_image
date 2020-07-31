@@ -25,7 +25,8 @@ except () {
 # log and print to stdout
 # logger is called by except so to avoid infinte loops do not call except from logger.
 logger () {
-    $1 tee $log || printf "\nError! logger function failed.\n"
+    echo $1 || printf "\nError! logger function failed to stdout.\n"
+    echo $1 >> $log || printf "\nError! logger function failed to file.\n"
 }
 
 # Test the build of SSLScan works.
@@ -35,8 +36,7 @@ test () {
 
 # Run the build and push to Git and Docker.
 run () {
-    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts \
-    | tee $log || except "Docker build failed!" 
+    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts | tee $log || except "Docker build failed!"
     if test blairy/sslscan:$ts
     then   
         git="/usr/bin/git -C /home/docker/sslscan/sslscan_docker_image/"
