@@ -30,19 +30,21 @@ logger () {
 
 # Test the build of SSLScan works.
 test () {
-  docker run --rm $1 https://google.com.au || return 1
+  docker run --rm $1 https://google.com.au | tee $log || return 1
 }
 
 # Run the build and push to Git and Docker.
 run () {
-    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts || except "Docker build failed!" 
-    if test blairy/sslscan:$ts; then   
+    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts \
+    | tee $log || except "Docker build failed!" 
+    if test blairy/sslscan:$ts
+    then   
         git="/usr/bin/git -C /home/docker/sslscan/sslscan_docker_image/"
         $git pull && \
         $git add --all && \
         $git commit -a -m "Automatic build $ts" && \ 
-        $git push || except "Git Failed!"
-        docker push blairy/sslscan:$ts || except "Docker push failed!"
+        $git push | tee $log || except "Git Failed!"
+        docker push blairy/sslscan:$ts | tee $log || except "Docker push failed!"
     else
         except "SSLScan Test Failed!"
     fi
