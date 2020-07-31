@@ -1,15 +1,4 @@
-The push refers to repository [docker.io/blairy/sslscan]
-cd76e28eb259: Preparing
-5d7800a643b6: Preparing
-1c508d525369: Preparing
-0ffe0630d102: Preparing
-5d7800a643b6: Layer already exists
-0ffe0630d102: Layer already exists
-cd76e28eb259: Layer already exists
-1c508d525369: Layer already exists
-20200731_1332: digest: sha256:e2b0b1f3dd84dfc2724582b43c02561f5159ccd8f22623181117680848990e59 size: 1154
-$(ts) - $1
-Sending build context to Docker daemon  195.6kB
+Sending build context to Docker daemon  203.3kB
 Step 1/10 : FROM alpine:latest
  ---> a24bb4013296
 Step 2/10 : RUN  apk update && apk upgrade &&  apk add --no-cache make git perl gcc linux-headers musl-dev zlib-dev zlib zlib-static &&  git clone https://github.com/rbsec/sslscan.git &&   cd sslscan &&    make static &&    make install || exit 1
@@ -39,7 +28,7 @@ Step 10/10 : ENTRYPOINT ["./sslscan"]
  ---> Using cache
  ---> cc4ead185284
 Successfully built cc4ead185284
-Successfully tagged blairy/sslscan:20200731_1335
+Successfully tagged blairy/sslscan:20200731_1341
 Version: [32m2.0.0-beta6-1-g8b35e8e-static[0m
 OpenSSL 1.1.1h-dev  xx XXX xxxx
 [0m
