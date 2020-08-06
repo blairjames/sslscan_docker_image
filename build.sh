@@ -42,7 +42,7 @@ run () {
         git="/usr/bin/git -C /home/docker/sslscan/sslscan_docker_image/"
         $git pull && \
         $git add --all && \
-        $git commit -a -m "Automatic build $ts" && \ 
+        $git commit -a -m "Automatic build "$ts && \ 
         $git push | tee -a $log || except "Git Failed!"
         docker push blairy/sslscan:$ts | tee -a $log || except "Docker push failed!"
     else
