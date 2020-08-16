@@ -45890,3 +45890,129 @@ Issuer:   GTS CA 1O1
 
 Not valid before: [32mJul 15 08:36:15 2020 GMT[0m
 Not valid after:  [32mOct  7 08:36:15 2020 GMT[0m
+The push refers to repository [docker.io/blairy/sslscan]
+cd76e28eb259: Preparing
+5d7800a643b6: Preparing
+1c508d525369: Preparing
+0ffe0630d102: Preparing
+cd76e28eb259: Layer already exists
+5d7800a643b6: Layer already exists
+0ffe0630d102: Layer already exists
+1c508d525369: Layer already exists
+20200816_1614: digest: sha256:e2b0b1f3dd84dfc2724582b43c02561f5159ccd8f22623181117680848990e59 size: 1154
+20200816_1614 - Build and Push successfull!
+Sending build context to Docker daemon  23.51MB
+Step 1/10 : FROM alpine:latest
+ ---> a24bb4013296
+Step 2/10 : RUN  apk update && apk upgrade &&  apk add --no-cache make git perl gcc linux-headers musl-dev zlib-dev zlib zlib-static &&  git clone https://github.com/rbsec/sslscan.git &&   cd sslscan &&    make static &&    make install || exit 1
+ ---> Using cache
+ ---> d82e3af9852d
+Step 3/10 : RUN  rm -rf /etc/passwd &&  touch /etc/passwd &&  addgroup -g 1000 -S nonpriv &&  adduser -u 1000 -S nonpriv -G nonpriv -h /dev/null -s /sbin/nologin -D &&  chmod 444 /etc/passwd || exit 1
+ ---> Using cache
+ ---> 017e5cd04263
+Step 4/10 : FROM scratch
+ ---> 
+Step 5/10 : COPY --from=0 /usr/bin/sslscan .
+ ---> Using cache
+ ---> 32febbec3c93
+Step 6/10 : COPY --from=0 /etc/passwd /etc/passwd
+ ---> Using cache
+ ---> 525aadab0a3f
+Step 7/10 : COPY --from=0 /lib/ld-musl-x86_64.so.1 /lib/ld-musl-x86_64.so.1
+ ---> Using cache
+ ---> d63188566ab3
+Step 8/10 : COPY --from=0 /lib/libz.so.1 /lib/libz.so.1
+ ---> Using cache
+ ---> ed92b07bb546
+Step 9/10 : USER nonpriv
+ ---> Using cache
+ ---> d2522474f45e
+Step 10/10 : ENTRYPOINT ["./sslscan"]
+ ---> Using cache
+ ---> cc4ead185284
+Successfully built cc4ead185284
+Successfully tagged blairy/sslscan:20200816_1714
+Version: [32m2.0.0-beta6-1-g8b35e8e-static[0m
+OpenSSL 1.1.1h-dev  xx XXX xxxx
+[0m
+[32mConnected to 142.250.66.195[0m
+
+Testing SSL server [32mgoogle.com.au[0m on port [32m443[0m using SNI name [32mgoogle.com.au[0m
+
+  [1;34mSSL/TLS Protocols:[0m
+SSLv2     [32mdisabled[0m
+SSLv3     [32mdisabled[0m
+TLSv1.0   [33menabled[0m
+TLSv1.1   enabled
+TLSv1.2   enabled
+TLSv1.3   [32menabled[0m
+
+  [1;34mTLS Fallback SCSV:[0m
+Server [32msupports[0m TLS Fallback SCSV
+
+  [1;34mTLS renegotiation:[0m
+[32mSecure[0m session renegotiation supported
+
+  [1;34mTLS Compression:[0m
+Compression [32mdisabled[0m
+
+  [1;34mHeartbleed:[0m
+TLSv1.3 [32mnot vulnerable[0m to heartbleed
+TLSv1.2 [32mnot vulnerable[0m to heartbleed
+TLSv1.1 [32mnot vulnerable[0m to heartbleed
+TLSv1.0 [32mnot vulnerable[0m to heartbleed
+
+  [1;34mSupported Server Cipher(s):[0m
+[32mPreferred[0m [32mTLSv1.3[0m  [32m128[0m bits  TLS_AES_128_GCM_SHA256        Curve [32m25519[0m DHE 253
+Accepted  [32mTLSv1.3[0m  [32m256[0m bits  TLS_AES_256_GCM_SHA384        Curve [32m25519[0m DHE 253
+Accepted  [32mTLSv1.3[0m  [32m256[0m bits  TLS_CHACHA20_POLY1305_SHA256  Curve [32m25519[0m DHE 253
+[32mPreferred[0m TLSv1.2  [32m256[0m bits  [32mECDHE-ECDSA-CHACHA20-POLY1305[0m Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m128[0m bits  [32mECDHE-ECDSA-AES128-GCM-SHA256[0m Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m256[0m bits  [32mECDHE-ECDSA-AES256-GCM-SHA384[0m Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m128[0m bits  ECDHE-ECDSA-AES128-SHA        Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m256[0m bits  ECDHE-ECDSA-AES256-SHA        Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m256[0m bits  [32mECDHE-RSA-CHACHA20-POLY1305  [0m Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m128[0m bits  [32mECDHE-RSA-AES128-GCM-SHA256  [0m Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m256[0m bits  [32mECDHE-RSA-AES256-GCM-SHA384  [0m Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m128[0m bits  ECDHE-RSA-AES128-SHA          Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m256[0m bits  ECDHE-RSA-AES256-SHA          Curve [32m25519[0m DHE 253
+Accepted  TLSv1.2  [32m128[0m bits  AES128-GCM-SHA256            
+Accepted  TLSv1.2  [32m256[0m bits  AES256-GCM-SHA384            
+Accepted  TLSv1.2  [32m128[0m bits  AES128-SHA                   
+Accepted  TLSv1.2  [32m256[0m bits  AES256-SHA                   
+Accepted  TLSv1.2  [32m112[0m bits  [33mDES-CBC3-SHA                 [0m
+[32mPreferred[0m TLSv1.1  [32m128[0m bits  ECDHE-ECDSA-AES128-SHA        Curve [32m25519[0m DHE 253
+Accepted  TLSv1.1  [32m256[0m bits  ECDHE-ECDSA-AES256-SHA        Curve [32m25519[0m DHE 253
+Accepted  TLSv1.1  [32m128[0m bits  ECDHE-RSA-AES128-SHA          Curve [32m25519[0m DHE 253
+Accepted  TLSv1.1  [32m256[0m bits  ECDHE-RSA-AES256-SHA          Curve [32m25519[0m DHE 253
+Accepted  TLSv1.1  [32m128[0m bits  AES128-SHA                   
+Accepted  TLSv1.1  [32m256[0m bits  AES256-SHA                   
+Accepted  TLSv1.1  [32m112[0m bits  [33mDES-CBC3-SHA                 [0m
+[32mPreferred[0m [33mTLSv1.0[0m  [32m128[0m bits  ECDHE-ECDSA-AES128-SHA        Curve [32m25519[0m DHE 253
+Accepted  [33mTLSv1.0[0m  [32m256[0m bits  ECDHE-ECDSA-AES256-SHA        Curve [32m25519[0m DHE 253
+Accepted  [33mTLSv1.0[0m  [32m128[0m bits  ECDHE-RSA-AES128-SHA          Curve [32m25519[0m DHE 253
+Accepted  [33mTLSv1.0[0m  [32m256[0m bits  ECDHE-RSA-AES256-SHA          Curve [32m25519[0m DHE 253
+Accepted  [33mTLSv1.0[0m  [32m128[0m bits  AES128-SHA                   
+Accepted  [33mTLSv1.0[0m  [32m256[0m bits  AES256-SHA                   
+Accepted  [33mTLSv1.0[0m  [32m112[0m bits  [33mDES-CBC3-SHA                 [0m
+
+  [1;34mServer Key Exchange Group(s):[0m
+TLSv1.3  [32m128[0m bits  secp256r1 (NIST P-256)[0m
+TLSv1.3  [32m128[0m bits  [32mx25519[0m
+TLSv1.2  [32m128[0m bits  secp256r1 (NIST P-256)[0m
+TLSv1.2  [32m128[0m bits  [32mx25519[0m
+
+  [1;34mServer Signature Algorithm(s):[0m
+TLSv1.3[33m  Server accepts all signature algorithms.[0m
+
+  [1;34mSSL Certificate:[0m
+Signature Algorithm: [32msha256WithRSAEncryption[0m
+ECC Curve Name:      prime256v1
+ECC Key Strength:    128[0m
+
+Subject:  *.google.com.au
+Altnames: DNS:*.google.com.au, DNS:google.com.au
+Issuer:   GTS CA 1O1
+
+Not valid before: [32mJul 15 08:36:15 2020 GMT[0m
+Not valid after:  [32mOct  7 08:36:15 2020 GMT[0m
