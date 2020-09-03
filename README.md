@@ -1,6 +1,4 @@
 # sslscan_docker_image
-###### Please send any questions, queries or concerns to: `sslscan@blairjames.com`
-
 - Full featured SSLScan implementation. 
 - Lean and up-to-date.
 - CI/CD built, monitored and maintained.
