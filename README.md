@@ -15,6 +15,6 @@ docker run --rm blairy/sslscan
 
 #### Example Commands:
  - docker run --rm blairy/sslscan -version
- --docker run --rm blairy/sslscan --show-times google.com
+ - docker run --rm blairy/sslscan --show-times google.com
 
 
