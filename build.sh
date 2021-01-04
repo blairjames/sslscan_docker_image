@@ -59,4 +59,7 @@ else
     exit 1
 fi
 
+# Prune
+/usr/bin/git gc --prune
+
 printf "ERROR! escaped context!" && exit 1
