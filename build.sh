@@ -36,7 +36,7 @@ test () {
 
 # Run the build and push to Git and Docker.
 run () {
-    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts | tee -a $log || except "Docker build failed!"
+    docker build /home/docker/sslscan/sslscan_docker_image/ -t blairy/sslscan:$ts --no-cache --rm --pull | tee -a $log || except "Docker build failed!"
     if test blairy/sslscan:$ts
     then   
         git="/usr/bin/git -C /home/docker/sslscan/sslscan_docker_image/"
@@ -60,6 +60,6 @@ else
 fi
 
 # Prune
-/usr/bin/git gc --prune
+cd /home/docker/sslscan/sslscan_docker_image/ && /usr/bin/git gc --prune
 
 printf "ERROR! escaped context!" && exit 1
